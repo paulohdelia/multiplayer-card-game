@@ -12,6 +12,14 @@ io.on('connection', function (socket) {
     io.emit('isPlayerA');
   }
 
+  socket.on('dealCards', function () {
+    io.emit('dealCards');
+  });
+
+  socket.on('cardPlayed', function (gameObject) {
+    io.emit('cardPlayed', gameObject, isPlayerA);
+  });
+
   socket.on('disconnect', function () {
     console.log('A user disconnected: ' + socket.id);
     players = players.filter((player) => player !== socket.id);
