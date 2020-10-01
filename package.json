@@ -1,0 +1,16 @@
+{
+  "name": "multiplayer-card-game",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/paulohdelia/multiplayer-card-game.git",
+  "author": "paulohdelia <paulohdelia@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4",
+    "socket.io": "^2.3.0"
+  }
+}
