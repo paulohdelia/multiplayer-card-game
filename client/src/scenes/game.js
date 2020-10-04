@@ -1,4 +1,5 @@
 import io from 'socket.io-client';
+import Card from '../helpers/card';
 import Dealer from '../helpers/dealer';
 import Zone from '../helpers/zone';
 
@@ -40,6 +41,22 @@ export default class Game extends Phaser.Scene {
     this.socket.on('dealCards', function () {
       self.dealer.dealCards();
       self.dealText.disableInteractive();
+    });
+
+    this.socket.on('cardPlayed', function (gameObject, isPlayerA) {
+      if (isPlayerA !== self.isPlayerA) {
+        let sprite = gameObject.textureKey;
+        self.opponentCards.shift().destroy();
+        self.dropZone.data.values.cards++;
+        let card = new Card(self);
+        card
+          .render(
+            self.dropZone.x - 350 + self.dropZone.data.values.cards * 50,
+            self.dropZone.y,
+            sprite
+          )
+          .disableInteractive();
+      }
     });
 
     this.dealText = this.add
@@ -86,6 +103,8 @@ export default class Game extends Phaser.Scene {
       gameObject.y = dropZone.y;
 
       gameObject.disableInteractive();
+
+      self.socket.emit('cardPlayed', gameObject, self.isPlayerA);
     });
   }
 
